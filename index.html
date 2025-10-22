@@ -325,6 +325,68 @@
                 font-size: 16px;
             }
         }
+		.bells-grid {
+    		display: flex;
+  		  justify-content: center;
+  		  gap: 15px;
+  		  flex-wrap: wrap;
+  		  margin-top: 20px;
+		}
+		.bell {
+  		  background: radial-gradient(circle, #ffd700 40%, #c99a00 100%);
+  		  border: 3px solid #fff3b0;
+  		  border-radius: 50%;
+  		  width: 80px;
+ 			 height: 80px;
+  		  font-size: 2em;
+   		 cursor: pointer;
+  		  transition: transform 0.2s, background 0.3s;
+		    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+		}
+		.bell:hover {
+		    transform: scale(1.1);
+		}
+		.bell.active {
+		    background: radial-gradient(circle, #fff9c4 40%, #ffd700 100%);
+		    transform: scale(1.2);
+		}
+		.decorate-container {
+   		 text-align: center;
+  		  color: white;
+		}
+		.tree-zone {
+		    position: relative;
+ 		   display: inline-block;
+  		  background: radial-gradient(circle, #004400 0%, #002200 100%);
+  		  border: 4px solid #ffd700;
+ 		   border-radius: 20px;
+ 		   width: 300px;
+ 		   height: 400px;
+ 		   overflow: hidden;
+ 		   margin: 0 auto;
+		}
+		.tree-zone img#tree {
+   		 width: 100%;
+ 		   height: auto;
+ 		   pointer-events: none;
+		}
+		.ornaments {
+   		 margin-top: 20px;
+  		  display: flex;
+  		  justify-content: center;
+  		  gap: 15px;
+		}
+		.ornament {
+ 		   cursor: grab;
+ 		   transition: transform 0.2s;
+		}
+		.ornament:hover {
+ 		   transform: scale(1.2);
+		}
+		.placed {
+		    pointer-events: none;
+		    user-select: none;
+		}
     </style>
 </head>
 <body>
@@ -638,6 +700,97 @@
 						style="border-radius: 10px;">
 					</iframe>
 				`;
+			} else if (content.type === 'bells') {
+				modalBody.innerHTML = `
+					<div class="bells-container">
+						<h2 style="color:#ffd700; text-align:center; margin-bottom:20px;">🔔 Jeu musical de Noël 🔔</h2>
+						<p style="text-align:center; color:white; margin-bottom:15px;">Clique sur les cloches pour rejouer la mélodie "Jingle Bells" 🎶</p>
+						<div class="bells-grid">
+							<button class="bell" data-note="C">🔔</button>
+							<button class="bell" data-note="D">🔔</button>
+							<button class="bell" data-note="E">🔔</button>
+							<button class="bell" data-note="F">🔔</button>
+							<button class="bell" data-note="G">🔔</button>
+							<button class="bell" data-note="A">🔔</button>
+							<button class="bell" data-note="B">🔔</button>
+						</div>
+						<div id="bellMessage" style="text-align:center; color:#ffd700; margin-top:20px; font-weight:bold;"></div>
+					</div>
+				`;
+
+				const notes = {
+					C: new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg'),
+					D: new Audio('https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg'),
+					E: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'),
+					F: new Audio('https://actions.google.com/sounds/v1/cartoon/concussive_hit_guitar_boing.ogg'),
+					G: new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg'),
+					A: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg'),
+					B: new Audio('https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg')
+				};
+
+				const sequence = ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'G', 'C', 'D', 'E']; // Jingle Bells (simplifiée)
+				let userSequence = [];
+
+				document.querySelectorAll('.bell').forEach(bell => {
+					bell.addEventListener('click', () => {
+						const note = bell.dataset.note;
+						notes[note].currentTime = 0;
+						notes[note].play();
+						bell.classList.add('active');
+						setTimeout(() => bell.classList.remove('active'), 200);
+
+						userSequence.push(note);
+
+						if (userSequence.length === sequence.length) {
+							const correct = sequence.every((n, i) => n === userSequence[i]);
+							const msg = document.getElementById('bellMessage');
+							if (correct) {
+								msg.textContent = '🎶 Bravo ! Tu as rejoué "Jingle Bells" ! 🎅';
+							} else {
+								msg.textContent = '😅 Essaie encore, les cloches n’étaient pas dans le bon ordre !';
+							}
+							userSequence = [];
+						}
+					});
+				});
+			} else if (content.type === 'decorate') {
+				modalBody.innerHTML = `
+					<div class="decorate-container">
+						<h2 style="color:#ffd700; text-align:center; margin-bottom:20px;">🎄 Décore ton sapin 🎄</h2>
+						<div class="tree-zone">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Christmas_tree_icon_1.svg/512px-Christmas_tree_icon_1.svg.png" 
+								id="tree" alt="Sapin" draggable="false">
+						</div>
+						<div class="ornaments">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Christmas_ball_icon.svg/64px-Christmas_ball_icon.svg.png" draggable="true" class="ornament">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Christmas_star_icon.svg/64px-Christmas_star_icon.svg.png" draggable="true" class="ornament">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Gift_icon.svg/64px-Gift_icon.svg.png" draggable="true" class="ornament">
+							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Bell_icon.svg/64px-Bell_icon.svg.png" draggable="true" class="ornament">
+						</div>
+					</div>
+				`;
+
+				const treeZone = document.querySelector('.tree-zone');
+				document.querySelectorAll('.ornament').forEach(orn => {
+					orn.addEventListener('dragstart', e => {
+						e.dataTransfer.setData('src', e.target.src);
+					});
+				});
+
+				treeZone.addEventListener('dragover', e => e.preventDefault());
+				treeZone.addEventListener('drop', e => {
+					e.preventDefault();
+					const src = e.dataTransfer.getData('src');
+					const img = document.createElement('img');
+					img.src = src;
+					img.className = 'placed';
+					img.style.position = 'absolute';
+					img.style.left = (e.offsetX - 25) + 'px';
+					img.style.top = (e.offsetY - 25) + 'px';
+					img.style.width = '50px';
+					img.style.height = '50px';
+					treeZone.appendChild(img);
+				});
 			} else {
 				modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>Type de contenu non reconnu: ${content.type}</p></div>`;
 			}
