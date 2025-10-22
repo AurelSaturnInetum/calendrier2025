@@ -345,7 +345,7 @@
     <script>
         // Configuration du contenu de chaque jour
         const dayContents = {
-            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages et à demain... 🎅' },
+            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' },
             2: { type: 'image', content: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
             3: { type: 'video', content: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
             4: { type: 'sudoku', difficulty: 'easy' },
@@ -353,7 +353,7 @@
             6: { type: 'text', content: 'Saint Nicolas est passé ! 🎅' },
             7: { type: 'youtube', content: 'https://www.youtube.com/embed/cxCfypz5yAo' },
             8: { type: 'text', content: 'Le Père Noël prépare son traîneau 🛷' },
-            9: { type: 'text', content: 'Les rennes s\'entraînent ! 🦌' },
+            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' },
             10: { type: 'video', content: 'https://exemple.com/votre-video.mp4' },
             11: { type: 'text', content: 'L\'esprit de Noël est partout ! ✨' },
             12: { type: 'text', content: 'Plus que deux semaines ! 🎊' },
@@ -598,41 +598,59 @@
 
         // Ouvrir une case
         function openDay(day, element) {
-            const content = dayContents[day];
-            const modal = document.getElementById('modal');
-            const modalBody = document.getElementById('modalBody');
-            
-            // Marquer comme ouvert
-            if (!openedDays.includes(day)) {
-                openedDays.push(day);
-                localStorage.setItem('adventOpenedDays', JSON.stringify(openedDays));
-            }
-            
-            element.classList.add('opened');
-            element.innerHTML = '<div class="opened-content">🎁</div>';
-            
-            // Afficher le contenu dans la modal
-            if (content.type === 'sudoku') {
-                modalBody.innerHTML = createSudoku(content.difficulty);
-            } else if (content.type === 'text') {
-                modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>${content.content}</p></div>`;
-            } else if (content.type === 'image') {
-                modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><img src="${content.content}" alt="Image du jour ${day}">`;
-            } else if (content.type === 'video') {
-                modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><video controls autoplay><source src="${content.content}" type="video/mp4"></video>`;
-            } else if (content.type === 'youtube') {
-                modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><iframe width="100%" height="500" src="${content.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 10px;"></iframe>`;
-            } else {
-                modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>Type de contenu non reconnu: ${content.type}</p></div>`;
-            }
-            
-            modal.style.display = 'block';
-        }
+			const content = dayContents[day];
+			const modal = document.getElementById('modal');
+			const modalBody = document.getElementById('modalBody');
+        
+			if (!openedDays.includes(day)) {
+				openedDays.push(day);
+				localStorage.setItem('adventOpenedDays', JSON.stringify(openedDays));
+			}
+        
+			element.classList.add('opened');
+			element.innerHTML = '<div class="opened-content">🎁</div>';
+        
+			if (content.type === 'sudoku') {
+				modalBody.innerHTML = createSudoku(content.difficulty);
+			} else if (content.type === 'text') {
+				modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>${content.content}</p></div>`;
+			} else if (content.type === 'image') {
+				modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><img src="${content.content}" alt="Image du jour ${day}">`;
+			} else if (content.type === 'video') {
+				modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><video controls autoplay><source src="${content.content}" type="video/mp4"></video>`;
+			} else if (content.type === 'youtube') {
+				modalBody.innerHTML = `
+					<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2>
+					<iframe
+						width="100%"
+						height="500"
+						src="${content.content}"
+						title="Vidéo du jour ${day}"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						referrerpolicy="strict-origin-when-cross-origin"
+						allowfullscreen
+						style="border-radius: 10px;">
+					</iframe>
+				`;
+			} else {
+				modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>Type de contenu non reconnu: ${content.type}</p></div>`;
+			}
+        
+			modal.style.display = 'block';
+		}
 
         // Fermer la modal
         function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
+			const modal = document.getElementById('modal');
+			const modalBody = document.getElementById('modalBody');
+
+			// 🔧 Stopper toute vidéo en supprimant le contenu de la modale
+			modalBody.innerHTML = '';
+
+			// 🔧 Masquer la modale
+			modal.style.display = 'none';
+		}
 
         // Fermer avec Echap
         document.addEventListener('keydown', (e) => {
