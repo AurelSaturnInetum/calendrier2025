@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier de l'Avent 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0000 0%, #4a0000 50%, #1a0000 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .snow {
+            position: fixed;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700; }
+            50% { text-shadow: 0 0 30px #ffd700, 0 0 40px #ffd700; }
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .day-box {
+            position: relative;
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #8B0000, #DC143C);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .day-box:hover:not(.locked) {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 8px 25px rgba(255,215,0,0.5);
+        }
+
+        .day-box.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: linear-gradient(145deg, #4a4a4a, #6a6a6a);
+        }
+
+        .day-box.opened {
+            background: linear-gradient(145deg, #2d5016, #4a7c2c);
+        }
+
+        .day-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+
+        .day-box.opened .day-number {
+            display: none;
+        }
+
+        .opened-content {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #ffd700;
+        }
+
+        .day-box.opened .opened-content {
+            display: block;
+            animation: reveal 0.5s ease;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #8B0000, #DC143C);
+            padding: 40px;
+            border-radius: 20px;
+            border: 4px solid #ffd700;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+            animation: slideDown 0.5s ease;
+            box-shadow: 0 0 50px rgba(255,215,0,0.5);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -150%);
+            }
+            to {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .parchment {
+            background: #f4e4c1;
+            color: #3a2a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2em;
+            color: #ffd700;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.2);
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .modal-content video {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .lock-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.5em;
+        }
+
+        /* Styles pour le Sudoku */
+        .sudoku-container {
+            background: #f4e4c1;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .sudoku-container h2 {
+            color: #8B0000;
+            margin-bottom: 20px;
+        }
+
+        .sudoku-grid {
+            display: inline-grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 0;
+            border: 3px solid #3a2a1a;
+            background: #3a2a1a;
+            margin: 20px auto;
+        }
+
+        .sudoku-cell {
+            width: 45px;
+            height: 45px;
+            border: 1px solid #999;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            background: white;
+            color: #333;
+        }
+
+        .sudoku-cell:disabled {
+            background: #e8d7b8;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .sudoku-cell.error {
+            background: #ffcccc;
+        }
+
+        .sudoku-cell.correct {
+            background: #ccffcc;
+        }
+
+        .sudoku-cell:nth-child(3n) {
+            border-right: 2px solid #3a2a1a;
+        }
+
+        .sudoku-cell:nth-child(n+19):nth-child(-n+27),
+        .sudoku-cell:nth-child(n+46):nth-child(-n+54) {
+            border-bottom: 2px solid #3a2a1a;
+        }
+
+        .sudoku-buttons {
+            margin-top: 20px;
+        }
+
+        .sudoku-btn {
+            background: #8B0000;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .sudoku-btn:hover {
+            background: #DC143C;
+            transform: scale(1.05);
+        }
+
+        .sudoku-message {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        .sudoku-message.success {
+            color: #2d5016;
+        }
+
+        .sudoku-message.error {
+            color: #8B0000;
+        }
+
+        @media (max-width: 600px) {
+            .sudoku-cell {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="snow" id="snow"></div>
+    
+    <div class="container">
+        <h1>🎄 Calendrier de l'Avent 2025 🎄</h1>
+        <div class="calendar-grid" id="calendar"></div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration du contenu de chaque jour
+        const dayContents = {
+            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages et à demain... 🎅' },
+            2: { type: 'image', content: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
+            3: { type: 'video', content: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
+            4: { type: 'sudoku', difficulty: 'easy' },
+            5: { type: 'image', content: 'https://exemple.com/votre-image.jpg' },
+            6: { type: 'text', content: 'Saint Nicolas est passé ! 🎅' },
+            7: { type: 'youtube', content: 'https://www.youtube.com/embed/cxCfypz5yAo' },
+            8: { type: 'text', content: 'Le Père Noël prépare son traîneau 🛷' },
+            9: { type: 'text', content: 'Les rennes s\'entraînent ! 🦌' },
+            10: { type: 'video', content: 'https://exemple.com/votre-video.mp4' },
+            11: { type: 'text', content: 'L\'esprit de Noël est partout ! ✨' },
+            12: { type: 'text', content: 'Plus que deux semaines ! 🎊' },
+            13: { type: 'text', content: 'Les cadeaux sont en préparation 🎁' },
+            14: { type: 'text', content: 'Joyeuse mi-décembre ! 🌟' },
+            15: { type: 'text', content: 'Le compte à rebours est lancé ! ⏰' },
+            16: { type: 'text', content: 'Faites votre liste au Père Noël 📝' },
+            17: { type: 'text', content: 'Plus qu\'une semaine ! 🎉' },
+            18: { type: 'text', content: 'Les préparatifs s\'intensifient ! 🎀' },
+            19: { type: 'text', content: 'Presque là ! 🌠' },
+            20: { type: 'text', content: 'Dernière ligne droite ! 🎊' },
+            21: { type: 'text', content: 'C\'est bientôt la veille ! 🎅' },
+            22: { type: 'text', content: 'Plus que 3 jours ! 🎄' },
+            23: { type: 'text', content: 'Demain c\'est le grand soir ! 🌟' },
+            24: { type: 'text', content: 'Joyeux Réveillon de Noël ! 🎄🎅🎁' }
+        };
+
+        // Grilles de Sudoku pré-configurées (facile)
+        const sudokuPuzzles = {
+            easy: {
+                puzzle: [
+                    [5,3,0,0,7,0,0,0,0],
+                    [6,0,0,1,9,5,0,0,0],
+                    [0,9,8,0,0,0,0,6,0],
+                    [8,0,0,0,6,0,0,0,3],
+                    [4,0,0,8,0,3,0,0,1],
+                    [7,0,0,0,2,0,0,0,6],
+                    [0,6,0,0,0,0,2,8,0],
+                    [0,0,0,4,1,9,0,0,5],
+                    [0,0,0,0,8,0,0,7,9]
+                ],
+                solution: [
+                    [5,3,4,6,7,8,9,1,2],
+                    [6,7,2,1,9,5,3,4,8],
+                    [1,9,8,3,4,2,5,6,7],
+                    [8,5,9,7,6,1,4,2,3],
+                    [4,2,6,8,5,3,7,9,1],
+                    [7,1,3,9,2,4,8,5,6],
+                    [9,6,1,5,3,7,2,8,4],
+                    [2,8,7,4,1,9,6,3,5],
+                    [3,4,5,2,8,6,1,7,9]
+                ]
+            }
+        };
+
+        let currentSudoku = null;
+
+        // Créer les flocons de neige
+        function createSnowflakes() {
+            const snow = document.getElementById('snow');
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.opacity = Math.random();
+                snow.appendChild(snowflake);
+            }
+        }
+
+        // Obtenir la date actuelle (pour tester, vous pouvez changer cette valeur)
+        function getCurrentDay() {
+            const now = new Date();
+            // Pour tester, décommentez la ligne suivante et changez le jour
+            // return 10; 
+            return now.getMonth() === 11 ? now.getDate() : 0;
+        }
+
+        // Charger l'état sauvegardé
+        const openedDays = JSON.parse(localStorage.getItem('adventOpenedDays') || '[]');
+
+        // Créer le calendrier
+        function createCalendar() {
+            const calendar = document.getElementById('calendar');
+            const currentDay = getCurrentDay();
+            
+            for (let i = 1; i <= 24; i++) {
+                const dayBox = document.createElement('div');
+                dayBox.className = 'day-box';
+                
+                const isLocked = i > currentDay;
+                const isOpened = openedDays.includes(i);
+                
+                if (isLocked) {
+                    dayBox.classList.add('locked');
+                    dayBox.innerHTML = `
+                        <div class="day-number">${i}</div>
+                        <div class="lock-icon">🔒</div>
+                    `;
+                } else if (isOpened) {
+                    dayBox.classList.add('opened');
+                    dayBox.innerHTML = `
+                        <div class="opened-content">🎁</div>
+                    `;
+                } else {
+                    dayBox.innerHTML = `<div class="day-number">${i}</div>`;
+                }
+                
+                if (!isLocked) {
+                    dayBox.onclick = () => openDay(i, dayBox);
+                }
+                
+                calendar.appendChild(dayBox);
+            }
+        }
+
+        // Créer le Sudoku
+        function createSudoku(difficulty) {
+            const puzzle = sudokuPuzzles[difficulty];
+            currentSudoku = {
+                puzzle: puzzle.puzzle,
+                solution: puzzle.solution,
+                userGrid: puzzle.puzzle.map(row => [...row])
+            };
+
+            let html = '<div class="sudoku-container">';
+            html += '<h2>🎄 Sudoku de Noël - Niveau Facile 🎄</h2>';
+            html += '<p style="color: #3a2a1a; margin-bottom: 15px;">Remplissez la grille avec les chiffres de 1 à 9</p>';
+            html += '<div class="sudoku-grid">';
+
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const value = puzzle.puzzle[row][col];
+                    const isFixed = value !== 0;
+                    
+                    html += `<input type="text" 
+                        class="sudoku-cell" 
+                        id="cell-${row}-${col}"
+                        maxlength="1"
+                        ${isFixed ? 'disabled' : ''}
+                        value="${isFixed ? value : ''}"
+                        data-row="${row}"
+                        data-col="${col}"
+                        onkeypress="return /[1-9]/.test(event.key)"
+                        oninput="updateSudokuCell(${row}, ${col}, this.value)">`;
+                }
+            }
+
+            html += '</div>';
+            html += '<div class="sudoku-buttons">';
+            html += '<button class="sudoku-btn" onclick="checkSudoku()">Vérifier</button>';
+            html += '<button class="sudoku-btn" onclick="resetSudoku()">Recommencer</button>';
+            html += '<button class="sudoku-btn" onclick="solveSudoku()">Solution</button>';
+            html += '</div>';
+            html += '<div class="sudoku-message" id="sudokuMessage"></div>';
+            html += '</div>';
+
+            return html;
+        }
+
+        // Mettre à jour une cellule
+        function updateSudokuCell(row, col, value) {
+            if (currentSudoku) {
+                currentSudoku.userGrid[row][col] = value ? parseInt(value) : 0;
+            }
+        }
+
+        // Vérifier le Sudoku
+        function checkSudoku() {
+            if (!currentSudoku) return;
+
+            let correct = true;
+            let complete = true;
+
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const cell = document.getElementById(`cell-${row}-${col}`);
+                    if (cell.disabled) continue;
+
+                    const userValue = currentSudoku.userGrid[row][col];
+                    const correctValue = currentSudoku.solution[row][col];
+
+                    if (userValue === 0) {
+                        complete = false;
+                        cell.classList.remove('error', 'correct');
+                    } else if (userValue === correctValue) {
+                        cell.classList.remove('error');
+                        cell.classList.add('correct');
+                    } else {
+                        cell.classList.remove('correct');
+                        cell.classList.add('error');
+                        correct = false;
+                    }
+                }
+            }
+
+            const message = document.getElementById('sudokuMessage');
+            if (complete && correct) {
+                message.textContent = '🎉 Bravo ! Vous avez résolu le Sudoku ! 🎉';
+                message.className = 'sudoku-message success';
+            } else if (!complete) {
+                message.textContent = 'Il reste des cases à remplir...';
+                message.className = 'sudoku-message';
+            } else {
+                message.textContent = 'Il y a des erreurs. Réessayez !';
+                message.className = 'sudoku-message error';
+            }
+        }
+
+        // Recommencer le Sudoku
+        function resetSudoku() {
+            if (!currentSudoku) return;
+
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const cell = document.getElementById(`cell-${row}-${col}`);
+                    if (!cell.disabled) {
+                        cell.value = '';
+                        cell.classList.remove('error', 'correct');
+                        currentSudoku.userGrid[row][col] = 0;
+                    }
+                }
+            }
+
+            const message = document.getElementById('sudokuMessage');
+            message.textContent = '';
+            message.className = 'sudoku-message';
+        }
+
+        // Afficher la solution
+        function solveSudoku() {
+            if (!currentSudoku) return;
+
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const cell = document.getElementById(`cell-${row}-${col}`);
+                    if (!cell.disabled) {
+                        cell.value = currentSudoku.solution[row][col];
+                        cell.classList.remove('error');
+                        cell.classList.add('correct');
+                        currentSudoku.userGrid[row][col] = currentSudoku.solution[row][col];
+                    }
+                }
+            }
+
+            const message = document.getElementById('sudokuMessage');
+            message.textContent = '✨ Voici la solution complète ! ✨';
+            message.className = 'sudoku-message success';
+        }
+
+        // Ouvrir une case
+        function openDay(day, element) {
+            const content = dayContents[day];
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modalBody');
+            
+            // Marquer comme ouvert
+            if (!openedDays.includes(day)) {
+                openedDays.push(day);
+                localStorage.setItem('adventOpenedDays', JSON.stringify(openedDays));
+            }
+            
+            element.classList.add('opened');
+            element.innerHTML = '<div class="opened-content">🎁</div>';
+            
+            // Afficher le contenu dans la modal
+            if (content.type === 'sudoku') {
+                modalBody.innerHTML = createSudoku(content.difficulty);
+            } else if (content.type === 'text') {
+                modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>${content.content}</p></div>`;
+            } else if (content.type === 'image') {
+                modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><img src="${content.content}" alt="Image du jour ${day}">`;
+            } else if (content.type === 'video') {
+                modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><video controls autoplay><source src="${content.content}" type="video/mp4"></video>`;
+            } else if (content.type === 'youtube') {
+                modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><iframe width="100%" height="500" src="${content.content}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 10px;"></iframe>`;
+            } else {
+                modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>Type de contenu non reconnu: ${content.type}</p></div>`;
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        // Fermer la modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Fermer avec Echap
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Initialisation
+        createSnowflakes();
+        createCalendar();
+    </script>
+</body>
+</html>
