@@ -345,15 +345,15 @@
     <script>
         // Configuration du contenu de chaque jour
         const dayContents = {
-            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' },
-            2: { type: 'image', content: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
-            3: { type: 'video', content: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
+            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' }, // OK NE PAS TOUCHER
+            2: { type: 'image', content: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHp1djA0bDI3cHBoOWwwaWRrYXNlNXk5cm55YnF5bTFtNzY3bmx6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LBAv3HJDl2WwU/giphy.gif' }, // OK NE PAS TOUCHER
+            3: { type: 'youtube', content: 'https://www.youtube.com/embed/BBJa32lCaaY' }, // OK NE PAS TOUCHER
             4: { type: 'sudoku', difficulty: 'easy' },
             5: { type: 'image', content: 'https://exemple.com/votre-image.jpg' },
             6: { type: 'text', content: 'Saint Nicolas est passé ! 🎅' },
             7: { type: 'youtube', content: 'https://www.youtube.com/embed/cxCfypz5yAo' },
             8: { type: 'text', content: 'Le Père Noël prépare son traîneau 🛷' },
-            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' },
+            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' }, // OK NE PAS TOUCHER
             10: { type: 'video', content: 'https://exemple.com/votre-video.mp4' },
             11: { type: 'text', content: 'L\'esprit de Noël est partout ! ✨' },
             12: { type: 'text', content: 'Plus que deux semaines ! 🎊' },
@@ -366,9 +366,9 @@
             19: { type: 'text', content: 'Presque là ! 🌠' },
             20: { type: 'text', content: 'Dernière ligne droite ! 🎊' },
             21: { type: 'text', content: 'C\'est bientôt la veille ! 🎅' },
-            22: { type: 'text', content: 'Plus que 3 jours ! 🎄' },
-            23: { type: 'text', content: 'Demain c\'est le grand soir ! 🌟' },
-            24: { type: 'text', content: 'Joyeux Réveillon de Noël ! 🎄🎅🎁' }
+            22: { type: 'text', content: 'Plus que 3 jours avant noël ! 🎄' },
+            23: { type: 'text', content: 'Les jours approchent ! ' },
+			24: { type: 'youtube', content: 'https://www.youtube.com/embed/BFvzay3z4RE' } // OK NE PAS TOUCHER
         };
 
         // Grilles de Sudoku pré-configurées (facile)
@@ -415,15 +415,15 @@
                 snow.appendChild(snowflake);
             }
         }
-
+		//---------------------------------------------PARTIE A METTRE POUR TESTER---------------------------------------------------------------
         // Obtenir la date actuelle (pour tester, vous pouvez changer cette valeur)
         function getCurrentDay() {
             const now = new Date();
-            // Pour tester, décommentez la ligne suivante et changez le jour
-            // return 10; 
-            return now.getMonth() === 11 ? now.getDate() : 0;
+            // MODE TEST : décommentez la ligne suivante et changez le jour pour tester
+            return 25; // Simule le 10 décembre - changez ce chiffre pour tester d'autres jours
+            // return now.getMonth() === 11 ? now.getDate() : 0;
         }
-
+		//---------------------------------------------FIN DE LA PARTIE A METTRE POUR TESTER---------------------------------------------------------------
         // Charger l'état sauvegardé
         const openedDays = JSON.parse(localStorage.getItem('adventOpenedDays') || '[]');
 
@@ -619,12 +619,17 @@
 			} else if (content.type === 'video') {
 				modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><video controls autoplay><source src="${content.content}" type="video/mp4"></video>`;
 			} else if (content.type === 'youtube') {
+				// Ajout de ?autoplay=1 à l'URL pour lancer la vidéo automatiquement
+				const autoplayUrl = content.content.includes('?')
+					? `${content.content}&autoplay=1`
+					: `${content.content}?autoplay=1`;
+
 				modalBody.innerHTML = `
 					<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2>
 					<iframe
 						width="100%"
 						height="500"
-						src="${content.content}"
+						src="${autoplayUrl}"
 						title="Vidéo du jour ${day}"
 						frameborder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
