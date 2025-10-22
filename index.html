@@ -325,68 +325,6 @@
                 font-size: 16px;
             }
         }
-		.bells-grid {
-    		display: flex;
-  		  justify-content: center;
-  		  gap: 15px;
-  		  flex-wrap: wrap;
-  		  margin-top: 20px;
-		}
-		.bell {
-  		  background: radial-gradient(circle, #ffd700 40%, #c99a00 100%);
-  		  border: 3px solid #fff3b0;
-  		  border-radius: 50%;
-  		  width: 80px;
- 			 height: 80px;
-  		  font-size: 2em;
-   		 cursor: pointer;
-  		  transition: transform 0.2s, background 0.3s;
-		    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
-		}
-		.bell:hover {
-		    transform: scale(1.1);
-		}
-		.bell.active {
-		    background: radial-gradient(circle, #fff9c4 40%, #ffd700 100%);
-		    transform: scale(1.2);
-		}
-		.decorate-container {
-   		 text-align: center;
-  		  color: white;
-		}
-		.tree-zone {
-		    position: relative;
- 		   display: inline-block;
-  		  background: radial-gradient(circle, #004400 0%, #002200 100%);
-  		  border: 4px solid #ffd700;
- 		   border-radius: 20px;
- 		   width: 300px;
- 		   height: 400px;
- 		   overflow: hidden;
- 		   margin: 0 auto;
-		}
-		.tree-zone img#tree {
-   		 width: 100%;
- 		   height: auto;
- 		   pointer-events: none;
-		}
-		.ornaments {
-   		 margin-top: 20px;
-  		  display: flex;
-  		  justify-content: center;
-  		  gap: 15px;
-		}
-		.ornament {
- 		   cursor: grab;
- 		   transition: transform 0.2s;
-		}
-		.ornament:hover {
- 		   transform: scale(1.2);
-		}
-		.placed {
-		    pointer-events: none;
-		    user-select: none;
-		}
     </style>
 </head>
 <body>
@@ -407,15 +345,15 @@
     <script>
         // Configuration du contenu de chaque jour
         const dayContents = {
-            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' }, // OK NE PAS TOUCHER
-            2: { type: 'image', content: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHp1djA0bDI3cHBoOWwwaWRrYXNlNXk5cm55YnF5bTFtNzY3bmx6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LBAv3HJDl2WwU/giphy.gif' }, // OK NE PAS TOUCHER
-            3: { type: 'youtube', content: 'https://www.youtube.com/embed/BBJa32lCaaY' }, // OK NE PAS TOUCHER
+            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' },
+            2: { type: 'image', content: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
+            3: { type: 'video', content: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
             4: { type: 'sudoku', difficulty: 'easy' },
             5: { type: 'image', content: 'https://exemple.com/votre-image.jpg' },
             6: { type: 'text', content: 'Saint Nicolas est passé ! 🎅' },
             7: { type: 'youtube', content: 'https://www.youtube.com/embed/cxCfypz5yAo' },
             8: { type: 'text', content: 'Le Père Noël prépare son traîneau 🛷' },
-            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' }, // OK NE PAS TOUCHER
+            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' },
             10: { type: 'video', content: 'https://exemple.com/votre-video.mp4' },
             11: { type: 'text', content: 'L\'esprit de Noël est partout ! ✨' },
             12: { type: 'text', content: 'Plus que deux semaines ! 🎊' },
@@ -428,9 +366,9 @@
             19: { type: 'text', content: 'Presque là ! 🌠' },
             20: { type: 'text', content: 'Dernière ligne droite ! 🎊' },
             21: { type: 'text', content: 'C\'est bientôt la veille ! 🎅' },
-            22: { type: 'text', content: 'Plus que 3 jours avant noël ! 🎄' },
-            23: { type: 'text', content: 'Les jours approchent ! ' },
-			24: { type: 'youtube', content: 'https://www.youtube.com/embed/BFvzay3z4RE' } // OK NE PAS TOUCHER
+            22: { type: 'text', content: 'Plus que 3 jours ! 🎄' },
+            23: { type: 'text', content: 'Demain c\'est le grand soir ! 🌟' },
+            24: { type: 'text', content: 'Joyeux Réveillon de Noël ! 🎄🎅🎁' }
         };
 
         // Grilles de Sudoku pré-configurées (facile)
@@ -477,15 +415,15 @@
                 snow.appendChild(snowflake);
             }
         }
-		//---------------------------------------------PARTIE A METTRE POUR TESTER---------------------------------------------------------------
+
         // Obtenir la date actuelle (pour tester, vous pouvez changer cette valeur)
         function getCurrentDay() {
             const now = new Date();
-            // MODE TEST : décommentez la ligne suivante et changez le jour pour tester
-            return 25; // Simule le 10 décembre - changez ce chiffre pour tester d'autres jours
-            // return now.getMonth() === 11 ? now.getDate() : 0;
+            // Pour tester, décommentez la ligne suivante et changez le jour
+            // return 10; 
+            return now.getMonth() === 11 ? now.getDate() : 0;
         }
-		//---------------------------------------------FIN DE LA PARTIE A METTRE POUR TESTER---------------------------------------------------------------
+
         // Charger l'état sauvegardé
         const openedDays = JSON.parse(localStorage.getItem('adventOpenedDays') || '[]');
 
@@ -681,17 +619,12 @@
 			} else if (content.type === 'video') {
 				modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><video controls autoplay><source src="${content.content}" type="video/mp4"></video>`;
 			} else if (content.type === 'youtube') {
-				// Ajout de ?autoplay=1 à l'URL pour lancer la vidéo automatiquement
-				const autoplayUrl = content.content.includes('?')
-					? `${content.content}&autoplay=1`
-					: `${content.content}?autoplay=1`;
-
 				modalBody.innerHTML = `
 					<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2>
 					<iframe
 						width="100%"
 						height="500"
-						src="${autoplayUrl}"
+						src="${content.content}"
 						title="Vidéo du jour ${day}"
 						frameborder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -700,97 +633,6 @@
 						style="border-radius: 10px;">
 					</iframe>
 				`;
-			} else if (content.type === 'bells') {
-				modalBody.innerHTML = `
-					<div class="bells-container">
-						<h2 style="color:#ffd700; text-align:center; margin-bottom:20px;">🔔 Jeu musical de Noël 🔔</h2>
-						<p style="text-align:center; color:white; margin-bottom:15px;">Clique sur les cloches pour rejouer la mélodie "Jingle Bells" 🎶</p>
-						<div class="bells-grid">
-							<button class="bell" data-note="C">🔔</button>
-							<button class="bell" data-note="D">🔔</button>
-							<button class="bell" data-note="E">🔔</button>
-							<button class="bell" data-note="F">🔔</button>
-							<button class="bell" data-note="G">🔔</button>
-							<button class="bell" data-note="A">🔔</button>
-							<button class="bell" data-note="B">🔔</button>
-						</div>
-						<div id="bellMessage" style="text-align:center; color:#ffd700; margin-top:20px; font-weight:bold;"></div>
-					</div>
-				`;
-
-				const notes = {
-					C: new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg'),
-					D: new Audio('https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg'),
-					E: new Audio('https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg'),
-					F: new Audio('https://actions.google.com/sounds/v1/cartoon/concussive_hit_guitar_boing.ogg'),
-					G: new Audio('https://actions.google.com/sounds/v1/cartoon/slide_whistle_to_drum_hit.ogg'),
-					A: new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg'),
-					B: new Audio('https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg')
-				};
-
-				const sequence = ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'G', 'C', 'D', 'E']; // Jingle Bells (simplifiée)
-				let userSequence = [];
-
-				document.querySelectorAll('.bell').forEach(bell => {
-					bell.addEventListener('click', () => {
-						const note = bell.dataset.note;
-						notes[note].currentTime = 0;
-						notes[note].play();
-						bell.classList.add('active');
-						setTimeout(() => bell.classList.remove('active'), 200);
-
-						userSequence.push(note);
-
-						if (userSequence.length === sequence.length) {
-							const correct = sequence.every((n, i) => n === userSequence[i]);
-							const msg = document.getElementById('bellMessage');
-							if (correct) {
-								msg.textContent = '🎶 Bravo ! Tu as rejoué "Jingle Bells" ! 🎅';
-							} else {
-								msg.textContent = '😅 Essaie encore, les cloches n’étaient pas dans le bon ordre !';
-							}
-							userSequence = [];
-						}
-					});
-				});
-			} else if (content.type === 'decorate') {
-				modalBody.innerHTML = `
-					<div class="decorate-container">
-						<h2 style="color:#ffd700; text-align:center; margin-bottom:20px;">🎄 Décore ton sapin 🎄</h2>
-						<div class="tree-zone">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Christmas_tree_icon_1.svg/512px-Christmas_tree_icon_1.svg.png" 
-								id="tree" alt="Sapin" draggable="false">
-						</div>
-						<div class="ornaments">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Christmas_ball_icon.svg/64px-Christmas_ball_icon.svg.png" draggable="true" class="ornament">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Christmas_star_icon.svg/64px-Christmas_star_icon.svg.png" draggable="true" class="ornament">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Gift_icon.svg/64px-Gift_icon.svg.png" draggable="true" class="ornament">
-							<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Bell_icon.svg/64px-Bell_icon.svg.png" draggable="true" class="ornament">
-						</div>
-					</div>
-				`;
-
-				const treeZone = document.querySelector('.tree-zone');
-				document.querySelectorAll('.ornament').forEach(orn => {
-					orn.addEventListener('dragstart', e => {
-						e.dataTransfer.setData('src', e.target.src);
-					});
-				});
-
-				treeZone.addEventListener('dragover', e => e.preventDefault());
-				treeZone.addEventListener('drop', e => {
-					e.preventDefault();
-					const src = e.dataTransfer.getData('src');
-					const img = document.createElement('img');
-					img.src = src;
-					img.className = 'placed';
-					img.style.position = 'absolute';
-					img.style.left = (e.offsetX - 25) + 'px';
-					img.style.top = (e.offsetY - 25) + 'px';
-					img.style.width = '50px';
-					img.style.height = '50px';
-					treeZone.appendChild(img);
-				});
 			} else {
 				modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>Type de contenu non reconnu: ${content.type}</p></div>`;
 			}
