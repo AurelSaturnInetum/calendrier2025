@@ -413,7 +413,36 @@
             4: { type: 'sudoku', difficulty: 'easy' }, // OK NE PAS TOUCHER
             5: { type: 'image', content: 'https://exemple.com/votre-image.jpg' },
             6: { type: 'bells' }, // OK NE PAS TOUCHER
-            7: { type: 'youtube', content: 'https://www.youtube.com/embed/cxCfypz5yAo' },
+            7: { 
+				type: 'text', 
+				content: `
+					<h2>🍕 Recette de Sapin pizza de Noël 🍕</h2>
+        
+					<h3>Pour 1 pizza <h3>
+					<h3>Ingrédients :</h3>
+					<ul>
+						<li>1 pâte à pizza</li>
+						<li>3 c. à soupe de sauce tomate</li>
+						<li>3 pincées de fromage râpé</li>
+						<li>5 tomates-cerises rouges </li>
+						<li>5 tomates-cerises oranges</li>
+						<li>3 minis-mozzarella coupées en deux</li>
+						<li>6 rondelles de chorizo ou de saucisson ou saucisse vegan ou courgette cuite </li>
+						<li>8 à 10 feuilles de basilic </li>
+					</ul>
+		
+					<p><strong>Temps de préparation :</strong> 20 à 30 min | <strong>Cuisson :</strong> 15 min</p>
+        
+					<h3>Préparation :</h3>
+					<ol>
+						<li>Commencez par découper la pâte à pizza en forme de sapin de Noël.</li>
+						<li>Ensuite, tartinez la pâte de sauce tomate. Saupoudrez le tout de fromage râpé. </li>
+						<li>Passez à la décoration de votre pizza au look de sapin de Noël. Répartissez les rondelles de charcuterie (ou saucisse vegan ou courgette), les tomates cerises, les minis-mozzarella coupées en deux et les feuilles de basilic. </li>
+						<li>Découpez une étoile dans une tranche de saucisson (ou saucisse vegan ou courgette), et disposez-la au sommet du sapin de Noël à croquer. </li>
+						<li>Enfournez votre pizza en forme de sapin avec des boules de Noël dans le four préchauffé à 210°C pendant 15 à 18 minutes selon votre four.</li>
+					</ol>
+    ` 
+			}, // OK NE PAS TOUCHER
             8: { type: 'text', content: 'Le Père Noël prépare son traîneau 🛷' },
             9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' }, // OK NE PAS TOUCHER
             10: { type: 'video', content: 'https://exemple.com/votre-video.mp4' },
@@ -454,8 +483,8 @@
 						<li>Verser le glaçage dans une poche puis découpez le bout de façon à avoir une petite ouverture. Vous pouvez ensuite décorer vos biscuits comme vous le souhaitez. </li>
 					</ol>
     ` 
-			}, // OK NE PAS TOUCHER
-            20: { type: 'decorate' }, // OK NE PAS TOUCHER
+			},
+            20: { type: 'decorate' },
             21: { type: 'text', content: 'C\'est bientôt la veille ! 🎅' },
             22: { type: 'text', content: 'Plus que 3 jours avant noël ! 🎄' },
             23: { type: 'text', content: 'Les jours approchent ! ' },
