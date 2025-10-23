@@ -325,68 +325,6 @@
                 font-size: 16px;
             }
         }
-		.bells-grid {
-    		display: flex;
-  		  justify-content: center;
-  		  gap: 15px;
-  		  flex-wrap: wrap;
-  		  margin-top: 20px;
-		}
-		.bell {
-  		  background: radial-gradient(circle, #ffd700 40%, #c99a00 100%);
-  		  border: 3px solid #fff3b0;
-  		  border-radius: 50%;
-  		  width: 80px;
- 			 height: 80px;
-  		  font-size: 2em;
-   		 cursor: pointer;
-  		  transition: transform 0.2s, background 0.3s;
-		    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
-		}
-		.bell:hover {
-		    transform: scale(1.1);
-		}
-		.bell.active {
-		    background: radial-gradient(circle, #fff9c4 40%, #ffd700 100%);
-		    transform: scale(1.2);
-		}
-		.decorate-container {
-   		 text-align: center;
-  		  color: white;
-		}
-		.tree-zone {
-		    position: relative;
- 		   display: inline-block;
-  		  background: radial-gradient(circle, #004400 0%, #002200 100%);
-  		  border: 4px solid #ffd700;
- 		   border-radius: 20px;
- 		   width: 300px;
- 		   height: 400px;
- 		   overflow: hidden;
- 		   margin: 0 auto;
-		}
-		.tree-zone img#tree {
-   		 width: 100%;
- 		   height: auto;
- 		   pointer-events: none;
-		}
-		.ornaments {
-   		 margin-top: 20px;
-  		  display: flex;
-  		  justify-content: center;
-  		  gap: 15px;
-		}
-		.ornament {
- 		   cursor: grab;
- 		   transition: transform 0.2s;
-		}
-		.ornament:hover {
- 		   transform: scale(1.2);
-		}
-		.placed {
-		    pointer-events: none;
-		    user-select: none;
-		}
     </style>
 </head>
 <body>
@@ -407,44 +345,15 @@
     <script>
         // Configuration du contenu de chaque jour
         const dayContents = {
-            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' }, // OK NE PAS TOUCHER
-            2: { type: 'image', content: 'https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHp1djA0bDI3cHBoOWwwaWRrYXNlNXk5cm55YnF5bTFtNzY3bmx6OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LBAv3HJDl2WwU/giphy.gif' }, // OK NE PAS TOUCHER
-            3: { type: 'youtube', content: 'https://www.youtube.com/embed/BBJa32lCaaY' }, // OK NE PAS TOUCHER
-            4: { type: 'sudoku', difficulty: 'easy' }, // OK NE PAS TOUCHER
+            1: { type: 'text', content: 'Bienvenue dans le calendrier de l\'avent ! Pleins de bonnes choses vous attendent durant ce beau mois de décembre. Soyez curieux, attentifs, joyeux et émerveillés par cette fête de fin d\'année. Soyez sages 🎅' },
+            2: { type: 'image', content: 'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif' },
+            3: { type: 'video', content: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
+            4: { type: 'sudoku', difficulty: 'easy' },
             5: { type: 'image', content: 'https://exemple.com/votre-image.jpg' },
-            6: { type: 'bells' }, // OK NE PAS TOUCHER
-            7: { 
-				type: 'text', 
-				content: `
-					<h2>🍕 Recette de Sapin pizza de Noël 🍕</h2>
-        
-					<h3>Pour 1 pizza <h3>
-					<h3>Ingrédients :</h3>
-					<ul>
-						<li>1 pâte à pizza</li>
-						<li>3 c. à soupe de sauce tomate</li>
-						<li>3 pincées de fromage râpé</li>
-						<li>5 tomates-cerises rouges </li>
-						<li>5 tomates-cerises oranges</li>
-						<li>3 minis-mozzarella coupées en deux</li>
-						<li>6 rondelles de chorizo ou de saucisson ou saucisse vegan ou courgette cuite </li>
-						<li>8 à 10 feuilles de basilic </li>
-					</ul>
-		
-					<p><strong>Temps de préparation :</strong> 20 à 30 min | <strong>Cuisson :</strong> 15 min</p>
-        
-					<h3>Préparation :</h3>
-					<ol>
-						<li>Commencez par découper la pâte à pizza en forme de sapin de Noël.</li>
-						<li>Ensuite, tartinez la pâte de sauce tomate. Saupoudrez le tout de fromage râpé. </li>
-						<li>Passez à la décoration de votre pizza au look de sapin de Noël. Répartissez les rondelles de charcuterie (ou saucisse vegan ou courgette), les tomates cerises, les minis-mozzarella coupées en deux et les feuilles de basilic. </li>
-						<li>Découpez une étoile dans une tranche de saucisson (ou saucisse vegan ou courgette), et disposez-la au sommet du sapin de Noël à croquer. </li>
-						<li>Enfournez votre pizza en forme de sapin avec des boules de Noël dans le four préchauffé à 210°C pendant 15 à 18 minutes selon votre four.</li>
-					</ol>
-    ` 
-			}, // OK NE PAS TOUCHER
+            6: { type: 'text', content: 'Saint Nicolas est passé ! 🎅' },
+            7: { type: 'youtube', content: 'https://www.youtube.com/embed/cxCfypz5yAo' },
             8: { type: 'text', content: 'Le Père Noël prépare son traîneau 🛷' },
-            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' }, // OK NE PAS TOUCHER
+            9: { type: 'youtube', content: 'https://www.youtube.com/embed/27JZMgLZjj0' },
             10: { type: 'video', content: 'https://exemple.com/votre-video.mp4' },
             11: { type: 'text', content: 'L\'esprit de Noël est partout ! ✨' },
             12: { type: 'text', content: 'Plus que deux semaines ! 🎊' },
@@ -454,41 +363,12 @@
             16: { type: 'text', content: 'Faites votre liste au Père Noël 📝' },
             17: { type: 'text', content: 'Plus qu\'une semaine ! 🎉' },
             18: { type: 'text', content: 'Les préparatifs s\'intensifient ! 🎀' },
-            19: { 
-				type: 'text', 
-				content: `
-					<h2>🥮 Recette de biscuits de Noël 🥮</h2>
-        
-					<h3>Pour 8 personnes <h3>
-					<h3>Ingrédients :</h3>
-					<ul>
-						<li>250g de farine</li>
-						<li>125g de beurre mou</li>
-						<li>125g de sucre</li>
-						<li>1 œuf</li>
-						<li>150g de sucre glace</li>
-						<li>1 blanc d'œuf</li>
-						<li>1 pincée de sel</li>
-						<li>1 cuillère à soupe de canelle</li>
-					</ul>
-		
-					<p><strong>Temps de préparation :</strong> 2 heures | <strong>Cuisson :</strong> 12 min</p>
-        
-					<h3>Préparation :</h3>
-					<ol>
-						<li>Verser la farine, le sucre, le sel et la cannelle dans un bol. Ajouter le beurre mou et malaxez du bout des doigts. Ajouter ensuite l’œuf et mélanger jusqu’à obtenir une pâte homogène. Enrouler dans du papier film et laisser reposer au moins une heure au frais.</li>
-						<li>Une fois la pâte reposée, étaler sur une épaisseur d’un demi centimètre et réaliser des motifs de Noël à l’aide d’emporte-pièces et les disposer sur une feuille de papier cuisson. Faire de même jusqu’à ne plus avoir de pâte. </li>
-						<li>Enfourner 10 à 12 min à 180 °C jusqu’à ce que les biscuits se colorent légèrement. Laisser ensuite refroidir jusqu’à total refroidissement.</li>
-						<li>Faire le glaçage royal en mélangeant le blanc d’œuf et le sucre glace. Séparer le glaçage en autant de couleur que vous voulez avoir. Verser du colorant alimentaire afin d’obtenir la couleur désirée.</li>
-						<li>Verser le glaçage dans une poche puis découpez le bout de façon à avoir une petite ouverture. Vous pouvez ensuite décorer vos biscuits comme vous le souhaitez. </li>
-					</ol>
-    ` 
-			},
-            20: { type: 'decorate' },
+            19: { type: 'text', content: 'Presque là ! 🌠' },
+            20: { type: 'text', content: 'Dernière ligne droite ! 🎊' },
             21: { type: 'text', content: 'C\'est bientôt la veille ! 🎅' },
-            22: { type: 'text', content: 'Plus que 3 jours avant noël ! 🎄' },
-            23: { type: 'text', content: 'Les jours approchent ! ' },
-			24: { type: 'youtube', content: 'https://www.youtube.com/embed/BFvzay3z4RE' } // OK NE PAS TOUCHER
+            22: { type: 'text', content: 'Plus que 3 jours ! 🎄' },
+            23: { type: 'text', content: 'Demain c\'est le grand soir ! 🌟' },
+            24: { type: 'text', content: 'Joyeux Réveillon de Noël ! 🎄🎅🎁' }
         };
 
         // Grilles de Sudoku pré-configurées (facile)
@@ -535,14 +415,14 @@
                 snow.appendChild(snowflake);
             }
         }
-				// ---------------------------------------------PARTIE A METTRE POUR TESTER---------------------------------------------------------------
+
+        // Obtenir la date actuelle (pour tester, vous pouvez changer cette valeur)
         function getCurrentDay() {
             const now = new Date();
-            // MODE TEST : décommentez la ligne suivante et changez le jour pour tester
-            return 25; // Simule le 10 décembre - changez ce chiffre pour tester d'autres jours
-            // return now.getMonth() === 11 ? now.getDate() : 0;
+            // Pour tester, décommentez la ligne suivante et changez le jour
+            // return 10; 
+            return now.getMonth() === 11 ? now.getDate() : 0;
         }
-				// ---------------------------------------------FIN DE LA PARTIE A METTRE POUR TESTER---------------------------------------------------------------
 
         // Charger l'état sauvegardé
         const openedDays = JSON.parse(localStorage.getItem('adventOpenedDays') || '[]');
@@ -719,10 +599,6 @@
         // Ouvrir une case
         function openDay(day, element) {
 			const content = dayContents[day];
-			if (!content) {
-				alert(`Aucun contenu défini pour le jour ${day}`);
-				return;
-			}
 			const modal = document.getElementById('modal');
 			const modalBody = document.getElementById('modalBody');
         
@@ -743,17 +619,12 @@
 			} else if (content.type === 'video') {
 				modalBody.innerHTML = `<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2><video controls autoplay><source src="${content.content}" type="video/mp4"></video>`;
 			} else if (content.type === 'youtube') {
-				// Ajout de ?autoplay=1 à l'URL pour lancer la vidéo automatiquement
-				const autoplayUrl = content.content.includes('?')
-					? `${content.content}&autoplay=1`
-					: `${content.content}?autoplay=1`;
-
 				modalBody.innerHTML = `
 					<h2 style="color: #ffd700; margin-bottom: 20px;">Jour ${day}</h2>
 					<iframe
 						width="100%"
 						height="500"
-						src="${autoplayUrl}"
+						src="${content.content}"
 						title="Vidéo du jour ${day}"
 						frameborder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -762,134 +633,6 @@
 						style="border-radius: 10px;">
 					</iframe>
 				`;
-			} else if (content.type === 'bells') {
-				modalBody.innerHTML = `
-					<div class="bells-container">
-						<h2 style="color:#ffd700; text-align:center; margin-bottom:20px;">🔔 Jeu musical de Noël 🔔</h2>
-						<p style="text-align:center; color:white; margin-bottom:15px;">Clique sur les cloches pour rejouer la mélodie "Jingle Bells" 🎶</p>
-						<div class="bells-grid">
-							<button class="bell" data-note="C">🔔</button>
-							<button class="bell" data-note="D">🔔</button>
-							<button class="bell" data-note="E">🔔</button>
-							<button class="bell" data-note="F">🔔</button>
-							<button class="bell" data-note="G">🔔</button>
-							<button class="bell" data-note="A">🔔</button>
-							<button class="bell" data-note="B">🔔</button>
-						</div>
-						<div id="bellMessage" style="text-align:center; color:#ffd700; margin-top:20px; font-weight:bold;"></div>
-					</div>
-				`;
-
-				// Utilisation de fréquences pour créer des sons de cloche synthétiques
-				const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-	
-				function playBellNote(frequency) {
-					const oscillator = audioContext.createOscillator();
-					const gainNode = audioContext.createGain();
-		
-					oscillator.connect(gainNode);
-					gainNode.connect(audioContext.destination);
-		
-					oscillator.type = 'sine';
-					oscillator.frequency.value = frequency;
-		
-					gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-					gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
-		
-					oscillator.start(audioContext.currentTime);
-					oscillator.stop(audioContext.currentTime + 1);
-				}
-	
-				const notes = {
-					C: 261.63,  // Do
-					D: 293.66,  // Ré
-					E: 329.63,  // Mi
-					F: 349.23,  // Fa
-					G: 392.00,  // Sol
-					A: 440.00,  // La
-					B: 493.88   // Si
-				};
-
-				const sequence = ['E', 'E', 'E', 'E', 'E', 'E', 'E', 'G', 'C', 'D', 'E']; // Jingle Bells (simplifiée)
-				let userSequence = [];
-
-				document.querySelectorAll('.bell').forEach(bell => {
-					bell.addEventListener('click', () => {
-						const note = bell.dataset.note;
-						const msg = document.getElementById('bellMessage');
-
-						// 🔄 Efface le message dès qu'une nouvelle tentative commence
-						if (userSequence.length === 0) {
-							msg.textContent = '';
-						}
-
-						playBellNote(notes[note]);
-						bell.classList.add('active');
-						setTimeout(() => bell.classList.remove('active'), 200);
-
-						userSequence.push(note);
-
-						if (userSequence.length === sequence.length) {
-							const correct = sequence.every((n, i) => n === userSequence[i]);
-							if (correct) {
-								msg.textContent = '🎶 Bravo ! Tu as rejoué "Jingle Bells" ! 🎅';
-							} else {
-								msg.textContent = 'Essaie encore !';
-							}
-							userSequence = [];
-						}
-					});
-				});
-			} else if (content.type === 'decorate') {
-				modalBody.innerHTML = `
-					<div class="decorate-container">
-						<h2 style="color:#ffd700; text-align:center; margin-bottom:20px;">🎄 Décore ton sapin 🎄</h2>
-						<p style="text-align:center; color:white; margin-bottom:15px;">Glisse les décorations sur le sapin !</p>
-						<div class="tree-zone">
-							<svg id="tree" viewBox="0 0 200 250" style="width: 100%; height: 100%;">
-								<!-- Tronc -->
-								<rect x="85" y="200" width="30" height="40" fill="#8B4513"/>
-								<!-- Triangles du sapin (vert foncé pour un sapin nu) -->
-								<polygon points="100,20 40,90 160,90" fill="#0d5e0d"/>
-								<polygon points="100,70 30,140 170,140" fill="#0d5e0d"/>
-								<polygon points="100,120 20,200 180,200" fill="#0d5e0d"/>
-							</svg>
-						</div>
-						<div class="ornaments">
-							<div draggable="true" class="ornament" data-emoji="🔴" style="font-size: 35px; cursor: grab;">🔴</div>
-							<div draggable="true" class="ornament" data-emoji="⭐" style="font-size: 35px; cursor: grab;">⭐</div>
-							<div draggable="true" class="ornament" data-emoji="🎁" style="font-size: 35px; cursor: grab;">🎁</div>
-							<div draggable="true" class="ornament" data-emoji="🔔" style="font-size: 35px; cursor: grab;">🔔</div>
-							<div draggable="true" class="ornament" data-emoji="❄️" style="font-size: 35px; cursor: grab;">❄️</div>
-							<div draggable="true" class="ornament" data-emoji="🎀" style="font-size: 35px; cursor: grab;">🎀</div>
-						</div>
-					</div>
-				`;
-				const treeZone = document.querySelector('.tree-zone');
-				const ornaments = document.querySelectorAll('.ornament');
-				ornaments.forEach(orn => {
-					orn.addEventListener('dragstart', e => {
-						e.dataTransfer.effectAllowed = 'copy';
-						e.dataTransfer.setData('text/plain', e.target.dataset.emoji);
-				});
-				});
-				treeZone.addEventListener('dragover', e => {
-					e.preventDefault();
-					e.dataTransfer.dropEffect = 'copy';
-				});
-				treeZone.addEventListener('drop', e => {
-					e.preventDefault();
-					const emoji = e.dataTransfer.getData('text/plain');
-					const span = document.createElement('span');
-					span.textContent = emoji;
-					span.className = 'placed';
-					span.style.position = 'absolute';
-					const rect = treeZone.getBoundingClientRect();
-					span.style.left = (e.clientX - rect.left - 25) + 'px';
-					span.style.top = (e.clientY - rect.top - 25) + 'px';
-					span.style.fontSize = '35px';
-					treeZone.appendChild(span);
-				});
 			} else {
 				modalBody.innerHTML = `<div class="parchment"><h2>Jour ${day}</h2><p>Type de contenu non reconnu: ${content.type}</p></div>`;
 			}
